@@ -15,6 +15,15 @@ sections:
     design:
       columns: '2'
       view: citation
+  - block: markdown
+    content:
+      title: Publications
+      subtitle: My subtitle
+      text: <iframe src="http://research-reports.ucl.ac.uk/RPSDATA.SVC/pubs/OROBI05"></iframe>
+    design:
+      # See Page Builder docs for all section customization options.
+      # Choose how many columns the section has. Valid values: '1' or '2'.
+      columns: '1'      
   - block: contact
     id: contact
     content:
