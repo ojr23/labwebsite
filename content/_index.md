@@ -15,6 +15,15 @@ sections:
     design:
       columns: '2'
       view: citation
+  - block: markdown
+    content:
+      title: Publications
+      subtitle: 
+      text: <script src="https://bibbase.org/show?bib=https%3A%2F%2Fapi.zotero.org%2Fusers%2F1753149%2Fcollections%2FX3IPWAYK%2Fitems%3Fkey%3D0BxWD6meQr8WlNbt8iv1DKBh%26format%3Dbibtex%26limit%3D100&jsonp=1"></script>
+    design:
+      # See Page Builder docs for all section customization options.
+      # Choose how many columns the section has. Valid values: '1' or '2'.
+      columns: '1'
   - block: contact
     id: contact
     content:
@@ -32,13 +41,4 @@ sections:
       autolink: true
     design:
       columns: '2'
-  - block: markdown
-    content:
-      title: Publications
-      subtitle: 
-      text: <script src="https://bibbase.org/show?bib=https%3A%2F%2Fapi.zotero.org%2Fusers%2F1753149%2Fcollections%2FX3IPWAYK%2Fitems%3Fkey%3D0BxWD6meQr8WlNbt8iv1DKBh%26format%3Dbibtex%26limit%3D100&jsonp=1"></script>
-    design:
-      # See Page Builder docs for all section customization options.
-      # Choose how many columns the section has. Valid values: '1' or '2'.
-      columns: '1'
 ---
