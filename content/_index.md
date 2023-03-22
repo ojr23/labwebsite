@@ -15,7 +15,7 @@ sections:
     design:
       columns: '2'
       view: citation
-  - block: markdown
+  - block: publications
     content:
       title: Publications
       subtitle: 
