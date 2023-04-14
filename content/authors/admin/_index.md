@@ -64,5 +64,5 @@ email: 'o.robinson@ucl.ac.uk'
 highlight_name: true
 ---
 
-Oliver Robinson is a Professor of Neuroscience and Mental Health at the Institute of Cognitive Neuroscience, University College London. His primary focus is anxiety across adaptive and pathological states. He uses, among other things, computational psychiatry, neuroimaging and psychopharmacology
+Oliver Robinson is a Professor of Neuroscience and Mental Health at the Institute of Cognitive Neuroscience, University College London. His primary focus is anxiety across adaptive and pathological states. He uses, among other things, computational psychiatry, neuroimaging and psychopharmacology. You can find a list of his papers on <a href="[https://feature-tour.netlify.app/](https://pubmed.ncbi.nlm.nih.gov/?term=Robinson%20OJ%20OR%2010.1093%2Fscan%2Fnsw088%20NOT%20%22Curtin%20University%22%20NOT%20%22Pregnancy%22%20NOT%20%22duck%22%20NOT%20%22turtle%22%20NOT%20%22Cornell%22&page=2)" target="_blank" rel="noopener noreferrer">pubmed</a>
 {style="text-align: justify;"}
