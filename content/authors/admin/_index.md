@@ -70,3 +70,23 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
 {{< figure src="9780349447612.jpg" alt="The Anxious Brain book cover" width="300" >}}
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/agmbSqNHUT4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<h2>Recent Publications</h2>
+<div id="pubmed-feed">Loading publications...</div>
+
+<script>
+fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.gov/rss/search/14g2Xb2ijyNeeEEO6ebG1zkN-sxELinCWeFrnec35piXUc9k9l/?limit=15%26utm_campaign=pubmed-2%26fc=20260915102003')
+  .then(r => r.json())
+  .then(data => {
+    const container = document.getElementById('pubmed-feed');
+    container.innerHTML = data.items.map(item => `
+      <p style="margin-bottom:1rem;">
+        <a href="${item.link}" target="_blank" rel="noopener noreferrer"><strong>${item.title}</strong></a><br>
+        <small style="color:#666;">${item.pubDate.substring(0,10)}</small>
+      </p>
+    `).join('');
+  })
+  .catch(() => {
+    document.getElementById('pubmed-feed').innerHTML = 'Could not load publications.';
+  });
+</script>
