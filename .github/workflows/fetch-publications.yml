@@ -1,1 +1,40 @@
 
+name: Fetch Publications
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Runs daily at 6am UTC
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch PubMed RSS and save as JSON
+        run: |
+          curl -s "https://pubmed.ncbi.nlm.nih.gov/rss/search/16w3XeDAUam7Iobfqdso-7kQVdm1uzRr_LygJeDwkhx_st0AKw/?limit=100&utm_campaign=pubmed-2&fc=20260915105732" \
+          | python3 -c "
+          import sys, json, xml.etree.ElementTree as ET
+          tree = ET.parse(sys.stdin)
+          root = tree.getroot()
+          ns = {'dc': 'http://purl.org/dc/elements/1.1/'}
+          items = []
+          for item in root.findall('.//item'):
+              title = item.findtext('title', '')
+              link = item.findtext('link', '')
+              pubdate = item.findtext('pubDate', '')
+              authors = item.findtext('dc:creator', '', ns)
+              source = item.findtext('source', '')
+              items.append({'title': title, 'link': link, 'pubDate': pubdate, 'author': authors, 'journal': source})
+          print(json.dumps(items))
+          " > static/publications.json
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add static/publications.json
+          git diff --staged --quiet || git commit -m 'Update publications'
+          git push
