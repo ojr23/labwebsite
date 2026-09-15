@@ -86,12 +86,21 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.
   .then(r => r.json())
   .then(data => {
     const container = document.getElementById('pubmed-feed');
-    container.innerHTML = data.items.map(item => `
-      <p style="margin-bottom:1rem;">
-        <a href="${item.link}" target="_blank" rel="noopener noreferrer"><strong>${item.title}</strong></a><br>
-        <small style="color:#666;">${item.pubDate.substring(0,10)}</small>
-      </p>
-    `).join('');
+    container.innerHTML = data.items.map(item => {
+      const year = item.pubDate ? item.pubDate.substring(0, 4) : '';
+      const authors = item.author || '';
+      const journal = item.categories ? item.categories[0] : '';
+      return `
+        <p style="margin-bottom:1.5rem; line-height:1.6;">
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${item.title}</a>
+          ${year ? `<span style="color:#666;"> (${year})</span>` : ''}
+          <br>
+          <span style="color:#444;">${authors}</span>
+          <br>
+          <em style="color:#666;">${journal}</em>
+        </p>
+      `;
+    }).join('');
   })
   .catch(() => {
     document.getElementById('pubmed-feed').innerHTML = 'Could not load publications.';
