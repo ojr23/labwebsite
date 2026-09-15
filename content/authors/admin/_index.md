@@ -78,7 +78,7 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
   </div>
 </div>
 <h2>Recent Publications</h2>
-<div id="pubmed-feed" style="text-align:left; font-size:0.8rem;">Loading publications...</div>
+<div id="pubmed-feed" style="text-align:left; font-size:0.7rem;">Loading publications...</div>
 
 <script>
 fetch('/publications.json')
