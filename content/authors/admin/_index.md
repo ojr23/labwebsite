@@ -91,7 +91,7 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.
       return match ? match[1] : null;
     }).filter(Boolean).join(',');
 
-    const apiUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids}&retmode=json`;
+    const apiUrl = `https://corsproxy.io/?https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids}&retmode=json`;
     const res = await fetch(apiUrl);
     const json = await res.json();
 
