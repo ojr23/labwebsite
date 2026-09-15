@@ -84,24 +84,12 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
 <script>
 fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.gov/rss/search/14g2Xb2ijyNeeEEO6ebG1zkN-sxELinCWeFrnec35piXUc9k9l/?limit=100%26utm_campaign=pubmed-2%26fc=20260915102003&count=100')
   .then(r => r.json())
-  .then(async data => {
+  .then(data => {
     const container = document.getElementById('pubmed-feed');
-    const ids = data.items.map(item => {
-      const match = item.link.match(/\/(\d+)\//);
-      return match ? match[1] : null;
-    }).filter(Boolean).join(',');
-
-    const apiUrl = `https://corsproxy.io/?https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids}&retmode=json`;
-    const res = await fetch(apiUrl);
-    const json = await res.json();
-
     container.innerHTML = data.items.map(item => {
-      const match = item.link.match(/\/(\d+)\//);
-      const pmid = match ? match[1] : null;
-      const details = pmid && json.result[pmid];
-      const authors = details ? details.authors.map(a => a.name).join(', ') : '';
-      const journal = details ? details.fulljournalname : '';
       const year = item.pubDate ? item.pubDate.substring(0, 4) : '';
+      const authors = item.author || '';
+      const journal = item.categories ? item.categories[0] : '';
       return `
         <p style="margin-bottom:1.5rem; line-height:1.6; text-align:left;">
           <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${item.title}</a>
