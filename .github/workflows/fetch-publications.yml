@@ -17,18 +17,25 @@ jobs:
       - name: Fetch PubMed RSS and save as JSON
         run: |
           curl -s "https://pubmed.ncbi.nlm.nih.gov/rss/search/16w3XeDAUam7Iobfqdso-7kQVdm1uzRr_LygJeDwkhx_st0AKw/?limit=100&utm_campaign=pubmed-2&fc=20260915105732" | python3 -c "
-          import sys, json, xml.etree.ElementTree as ET
+          import sys, json, urllib.request, xml.etree.ElementTree as ET
           tree = ET.parse(sys.stdin)
           root = tree.getroot()
           ns = {'dc': 'http://purl.org/dc/elements/1.1/'}
           items = []
+          ids = []
           for item in root.findall('.//item'):
-              title = item.findtext('title', '')
               link = item.findtext('link', '')
-              pubdate = item.findtext('pubDate', '')
-              authors = item.findtext('dc:creator', '', ns)
-              source = item.findtext('source', '')
-              items.append({'title': title, 'link': link, 'pubDate': pubdate, 'author': authors, 'journal': source})
+              pmid = link.strip('/').split('/')[-1]
+              ids.append(pmid)
+              items.append({'title': item.findtext('title', ''), 'link': link, 'pubDate': item.findtext('pubDate', ''), 'journal': item.findtext('source', ''), 'pmid': pmid})
+          # Fetch full author lists from PubMed API
+          url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=' + ','.join(ids) + '&retmode=json'
+          with urllib.request.urlopen(url) as r:
+              details = json.loads(r.read())
+          for item in items:
+              d = details.get('result', {}).get(item['pmid'], {})
+              authors = d.get('authors', [])
+              item['author'] = ', '.join(a['name'] for a in authors)
           print(json.dumps(items))
           " > static/publications.json
 
