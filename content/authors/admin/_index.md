@@ -70,7 +70,7 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
 <div style="display:flex; gap:2rem; align-items:flex-start; flex-wrap:wrap; margin-top:1rem;">
   <div style="flex:1; min-width:200px;">
     <a href="https://www.waterstones.com/book/the-anxious-brain/oliver-robinson/9780349447612" target="_blank" rel="noopener noreferrer">
-      <img src="/media/9780349447612.jpg" alt="The Anxious Brain book cover" style="width:100%; max-width:250px; border-radius:8px;">
+      <img src="9780349447612.jpg" alt="The Anxious Brain book cover" style="width:100%; max-width:250px; border-radius:8px;">
     </a>
   </div>
   <div style="flex:2; min-width:280px;">
@@ -78,20 +78,33 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
   </div>
 </div>
 
+
 <h2>Recent Publications</h2>
-<div id="pubmed-feed">Loading publications...</div>
+<div id="pubmed-feed" style="text-align:left; font-size:0.8rem;">Loading publications...</div>
 
 <script>
-fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.gov/rss/search/14g2Xb2ijyNeeEEO6ebG1zkN-sxELinCWeFrnec35piXUc9k9l/?limit=15%26utm_campaign=pubmed-2%26fc=20260915102003')
+fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.gov/rss/search/14g2Xb2ijyNeeEEO6ebG1zkN-sxELinCWeFrnec35piXUc9k9l/?limit=100%26utm_campaign=pubmed-2%26fc=20260915102003&count=100')
   .then(r => r.json())
-  .then(data => {
+  .then(async data => {
     const container = document.getElementById('pubmed-feed');
+    const ids = data.items.map(item => {
+      const match = item.link.match(/\/(\d+)\//);
+      return match ? match[1] : null;
+    }).filter(Boolean).join(',');
+
+    const apiUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids}&retmode=json`;
+    const res = await fetch(apiUrl);
+    const json = await res.json();
+
     container.innerHTML = data.items.map(item => {
+      const match = item.link.match(/\/(\d+)\//);
+      const pmid = match ? match[1] : null;
+      const details = pmid && json.result[pmid];
+      const authors = details ? details.authors.map(a => a.name).join(', ') : '';
+      const journal = details ? details.fulljournalname : '';
       const year = item.pubDate ? item.pubDate.substring(0, 4) : '';
-      const authors = item.author || '';
-      const journal = item.categories ? item.categories[0] : '';
       return `
-        <p style="margin-bottom:1.5rem; line-height:1.6;">
+        <p style="margin-bottom:1.5rem; line-height:1.6; text-align:left;">
           <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${item.title}</a>
           ${year ? `<span style="color:#666;"> (${year})</span>` : ''}
           <br>
@@ -102,7 +115,8 @@ fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.
       `;
     }).join('');
   })
-  .catch(() => {
+  .catch(err => {
     document.getElementById('pubmed-feed').innerHTML = 'Could not load publications.';
+    console.error(err);
   });
 </script>
