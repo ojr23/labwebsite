@@ -82,13 +82,17 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
 
 <script>
 const rssUrl = 'https://pubmed.ncbi.nlm.nih.gov/rss/search/14g2Xb2ijyNeeEEO6ebG1zkN-sxELinCWeFrnec35piXUc9k9l/?limit=100&utm_campaign=pubmed-2&fc=20260915102003';
-fetch('https://corsproxy.io/?' + encodeURIComponent(rssUrl))
-  .then(r => r.text())
-  .then(str => {
+fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl))
+  .then(r => r.json())
+  .then(data => {
     const parser = new DOMParser();
-    const xml = parser.parseFromString(str, 'text/xml');
+    const xml = parser.parseFromString(data.contents, 'text/xml');
     const items = Array.from(xml.querySelectorAll('item'));
     const container = document.getElementById('pubmed-feed');
+    if (items.length === 0) {
+      container.innerHTML = 'No publications found.';
+      return;
+    }
     container.innerHTML = items.map(item => {
       const title = item.querySelector('title')?.textContent || '';
       const link = item.querySelector('link')?.textContent || '';
