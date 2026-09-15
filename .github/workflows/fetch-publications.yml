@@ -1,10 +1,9 @@
-
 name: Fetch Publications
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Runs daily at 6am UTC
-  workflow_dispatch:  # Allows manual trigger
+    - cron: '0 6 * * *'
+  workflow_dispatch:
 
 jobs:
   fetch:
@@ -14,8 +13,7 @@ jobs:
 
       - name: Fetch PubMed RSS and save as JSON
         run: |
-          curl -s "https://pubmed.ncbi.nlm.nih.gov/rss/search/16w3XeDAUam7Iobfqdso-7kQVdm1uzRr_LygJeDwkhx_st0AKw/?limit=100&utm_campaign=pubmed-2&fc=20260915105732" \
-          | python3 -c "
+          curl -s "https://pubmed.ncbi.nlm.nih.gov/rss/search/16w3XeDAUam7Iobfqdso-7kQVdm1uzRr_LygJeDwkhx_st0AKw/?limit=100&utm_campaign=pubmed-2&fc=20260915105732" | python3 -c "
           import sys, json, xml.etree.ElementTree as ET
           tree = ET.parse(sys.stdin)
           root = tree.getroot()
