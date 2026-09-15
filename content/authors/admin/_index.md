@@ -81,28 +81,22 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
 <div id="pubmed-feed" style="text-align:left; font-size:0.8rem;">Loading publications...</div>
 
 <script>
-const rssUrl = 'https://pubmed.ncbi.nlm.nih.gov/rss/search/14g2Xb2ijyNeeEEO6ebG1zkN-sxELinCWeFrnec35piXUc9k9l/?limit=100&utm_campaign=pubmed-2&fc=20260915102003';
-fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl))
+const rssUrl = encodeURIComponent('https://pubmed.ncbi.nlm.nih.gov/rss/search/14g2Xb2ijyNeeEEO6ebG1zkN-sxELinCWeFrnec35piXUc9k9l/?limit=100&utm_campaign=pubmed-2&fc=20260915102003');
+fetch('https://api.rss2json.com/v1/api.json?rss_url=' + rssUrl + '&api_key=&count=100')
   .then(r => r.json())
   .then(data => {
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, 'text/xml');
-    const items = Array.from(xml.querySelectorAll('item'));
     const container = document.getElementById('pubmed-feed');
-    if (items.length === 0) {
-      container.innerHTML = 'No publications found.';
+    if (!data.items || data.items.length === 0) {
+      container.innerHTML = 'No publications found. Status: ' + data.status;
       return;
     }
-    container.innerHTML = items.map(item => {
-      const title = item.querySelector('title')?.textContent || '';
-      const link = item.querySelector('link')?.textContent || '';
-      const pubDate = item.querySelector('pubDate')?.textContent || '';
-      const year = pubDate ? pubDate.substring(7, 11) : '';
-      const authors = item.querySelector('creator')?.textContent || '';
-      const journal = item.querySelector('source')?.textContent || '';
+    container.innerHTML = data.items.map(item => {
+      const year = item.pubDate ? item.pubDate.substring(0, 4) : '';
+      const authors = item.author || '';
+      const journal = item.categories ? item.categories[0] : '';
       return `
         <p style="margin-bottom:1.5rem; line-height:1.6; text-align:left;">
-          <a href="${link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${title}</a>
+          <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${item.title}</a>
           ${year ? `<span style="color:#666;"> (${year})</span>` : ''}
           <br>
           <span style="color:#444;">${authors}</span>
