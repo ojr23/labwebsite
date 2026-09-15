@@ -68,7 +68,7 @@ Oliver Robinson is a Professor of Neuroscience and Mental Health at the Institut
 
 His first book for a public audience "The Anxious Brain" can be pre-ordered here: https://www.waterstones.com/book/the-anxious-brain/oliver-robinson/9780349447612
 
-<img src="/media/your-image-name.jpg" alt="The Anxious Brain" style="width:100%; max-width:600px; margin-top:1rem; border-radius:8px;">
+<img src="assets/media/9780349447612.jpg" alt="The Anxious Brain" style="width:100%; max-width:600px; margin-top:1rem; border-radius:8px;">
 
 {style="text-align: justify;"}   
 
