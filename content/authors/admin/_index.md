@@ -81,32 +81,29 @@ His first book for a public audience "The Anxious Brain" can be pre-ordered <a h
 <div id="pubmed-feed" style="text-align:left; font-size:0.8rem;">Loading publications...</div>
 
 <script>
-fetch('https://api.rss2json.com/v1/api.json?rss_url=https://pubmed.ncbi.nlm.nih.gov/rss/search/16w3XeDAUam7Iobfqdso-7kQVdm1uzRr_LygJeDwkhx_st0AKw/?limit=100%26utm_campaign=pubmed-2%26fc=20260915105732&count=100')
+fetch('/publications.json')
   .then(r => r.json())
-  .then(data => {
+  .then(items => {
     const container = document.getElementById('pubmed-feed');
-    if (!data.items || data.items.length === 0) {
-      container.innerHTML = 'No publications found. Status: ' + data.status;
+    if (!items || items.length === 0) {
+      container.innerHTML = 'No publications found.';
       return;
     }
-    container.innerHTML = data.items.map(item => {
-      const year = item.pubDate ? item.pubDate.substring(0, 4) : '';
-      const authors = item.author || '';
-      const journal = item.categories ? item.categories[0] : '';
+    container.innerHTML = items.map(item => {
+      const year = item.pubDate ? item.pubDate.substring(7, 11) : '';
       return `
         <p style="margin-bottom:1.5rem; line-height:1.6; text-align:left;">
           <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${item.title}</a>
           ${year ? `<span style="color:#666;"> (${year})</span>` : ''}
           <br>
-          <span style="color:#444;">${authors}</span>
+          <span style="color:#444;">${item.author}</span>
           <br>
-          <em style="color:#666;">${journal}</em>
+          <em style="color:#666;">${item.journal}</em>
         </p>
       `;
     }).join('');
   })
   .catch(err => {
     document.getElementById('pubmed-feed').innerHTML = 'Could not load publications. Error: ' + err.message;
-    console.error(err);
   });
 </script>
