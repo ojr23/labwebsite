@@ -91,6 +91,16 @@ jobs:
           for item in items:
               item.pop('doi', None)
 
+          # Deduplicate by title and filter to only papers with authors, journal and year
+          seen_titles = set()
+          filtered = []
+          for item in items:
+              title_key = item['title'].lower().strip().rstrip('.')
+              if title_key not in seen_titles and item['author'] and item['journal'] and item['year']:
+                  seen_titles.add(title_key)
+                  filtered.append(item)
+          items = filtered
+
           with open('static/publications.json', 'w') as f:
               json.dump(items, f)
           print(f'Saved {len(items)} publications')
