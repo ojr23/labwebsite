@@ -24,23 +24,6 @@ organizations:
 # Short bio (displayed in user profile at end of posts)
 bio: My research interests include mental health, anxiety, computational psychiatry, neuroimaging, psychopharmacology
 
-# Interests to show in About widget
-interests:
-  - Mental Health
-  - Computational Psychiatry
-  - Neuroimaging
-  - Psychopharmacology
-
-# Education to show in About widget
-education:
-  courses:
-    - course: PhD in Psychiatry
-      institution: University of Cambridge
-      year: 2009
-    - course: BA Natural Sciences (Neuroscience)
-      institution: University of Cambridge
-      year: 2005
-
 social:
   - icon: envelope
     icon_pack: fas
@@ -52,9 +35,10 @@ social:
 email: 'o.robinson@ucl.ac.uk'
 highlight_name: true
 ---
-<p>Oliver Robinson is a Professor of Neuroscience and Mental Health at the Institute of Cognitive Neuroscience, University College London. His primary focus is anxiety across adaptive and pathological states. He uses, among other things, computational psychiatry, neuroimaging and psychopharmacology. You can find a full list of his papers below or on <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Robinson+OJ+OR+10.1093%2Fscan%2Fnsw088+NOT+%22Curtin+University%22+NOT+%22Pregnancy%22+NOT+%22duck%22+NOT+%22turtle%22+NOT+%22Cornell%22+NOT+%22SNAP%22+NOT+%22Robinson+OJK%22+NOT+%22Imperial%22&sort=date" target="_blank" rel="noopener noreferrer">Pubmed</a> or <a href="https://scholar.google.com/citations?hl=en&user=d0zu1QEAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener noreferrer">Google.</a> A recent profile of his work at UCL can be found <a href="https://www.ucl.ac.uk/mental-health/mental-health-awareness-week/professor-oliver-robinson-and-anxiety-lab" target="_blank" rel="noopener noreferrer">here.</a> For open science materials see Github, OSF, figshare and neurovault.</p>
 
-<p>His first book for a public audience "The Anxious Brain" can be pre-ordered <a href="https://www.waterstones.com/book/the-anxious-brain/oliver-robinson/9780349447612" target="_blank" rel="noopener noreferrer">here</a>.</p>
+<p style="text-align:left;">Oliver Robinson is a Professor of Neuroscience and Mental Health at the Institute of Cognitive Neuroscience, University College London. His primary focus is anxiety across adaptive and pathological states. He uses, among other things, computational psychiatry, neuroimaging and psychopharmacology. You can find a full list of his papers below or on <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Robinson+OJ+OR+10.1093%2Fscan%2Fnsw088+NOT+%22Curtin+University%22+NOT+%22Pregnancy%22+NOT+%22duck%22+NOT+%22turtle%22+NOT+%22Cornell%22+NOT+%22SNAP%22+NOT+%22Robinson+OJK%22+NOT+%22Imperial%22&sort=date" target="_blank" rel="noopener noreferrer">Pubmed</a> or <a href="https://scholar.google.com/citations?hl=en&user=d0zu1QEAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener noreferrer">Google.</a> A recent profile of his work at UCL can be found <a href="https://www.ucl.ac.uk/mental-health/mental-health-awareness-week/professor-oliver-robinson-and-anxiety-lab" target="_blank" rel="noopener noreferrer">here.</a> For open science materials see Github, OSF, figshare and neurovault.</p>
+
+<p style="text-align:left;">His first book for a public audience "The Anxious Brain" can be pre-ordered <a href="https://www.waterstones.com/book/the-anxious-brain/oliver-robinson/9780349447612" target="_blank" rel="noopener noreferrer">here</a>.</p>
 
 <div style="display:flex; gap:2rem; align-items:center; flex-wrap:wrap; margin-top:1rem; margin-bottom:2rem;">
   <div style="flex:1; min-width:200px;">
@@ -67,7 +51,7 @@ highlight_name: true
   </div>
 </div>
 
-<h2>Recent Publications</h2>
+<h2 style="text-align:left;">Recent Publications</h2>
 <div id="pubmed-feed" style="text-align:left; font-size:0.7rem;">Loading publications...</div>
 
 <script>
