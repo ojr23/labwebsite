@@ -41,30 +41,19 @@ education:
       institution: University of Cambridge
       year: 2005
 
-# Social/Academic Networking
-# For available icons, see: https://wowchemy.com/docs/getting-started/page-builder/#icons
-#   For an email link, use "fas" icon pack, "envelope" icon, and a link in the
-#   form "mailto:your-email@example.com" or "/#contact" for contact widget.
 social:
   - icon: envelope
     icon_pack: fas
     link: '/#contact'
-  - icon: graduation-cap # Alternatively, use `google-scholar` icon from `ai` icon pack
+  - icon: graduation-cap
     icon_pack: fas
     link: https://scholar.google.com/citations?hl=en&user=d0zu1QEAAAAJ&view_op=list_works&sortby=pubdate
-  # Link to a PDF of your resume/CV.
-  # To use: copy your resume to `static/uploads/resume.pdf`, enable `ai` icons in `params.yaml`,
-  # and uncomment the lines below.
 
-
-# Enter email to display Gravatar (if Gravatar enabled in Config)
 email: 'o.robinson@ucl.ac.uk'
-
-# Highlight the author in author lists? (true/false)
 highlight_name: true
+---
 <div style="display:flex; gap:3rem; align-items:flex-start; flex-wrap:wrap; margin-top:1rem;">
 
-  <!-- Left column: bio, book, video -->
   <div style="flex:1; min-width:280px;">
 
     <p>Oliver Robinson is a Professor of Neuroscience and Mental Health at the Institute of Cognitive Neuroscience, University College London. His primary focus is anxiety across adaptive and pathological states. He uses, among other things, computational psychiatry, neuroimaging and psychopharmacology. You can find a full list of his papers below or on <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Robinson+OJ+OR+10.1093%2Fscan%2Fnsw088+NOT+%22Curtin+University%22+NOT+%22Pregnancy%22+NOT+%22duck%22+NOT+%22turtle%22+NOT+%22Cornell%22+NOT+%22SNAP%22+NOT+%22Robinson+OJK%22+NOT+%22Imperial%22&sort=date" target="_blank" rel="noopener noreferrer">Pubmed</a> or <a href="https://scholar.google.com/citations?hl=en&user=d0zu1QEAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener noreferrer">Google.</a> A recent profile of his work at UCL can be found <a href="https://www.ucl.ac.uk/mental-health/mental-health-awareness-week/professor-oliver-robinson-and-anxiety-lab" target="_blank" rel="noopener noreferrer">here.</a> For open science materials see Github, OSF, figshare and neurovault.</p>
@@ -84,7 +73,6 @@ highlight_name: true
 
   </div>
 
-  <!-- Right column: publications -->
   <div style="flex:1; min-width:280px;">
     <h2>Recent Publications</h2>
     <div id="pubmed-feed" style="text-align:left; font-size:0.7rem; max-height:80vh; overflow-y:auto;">Loading publications...</div>
