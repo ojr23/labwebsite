@@ -89,19 +89,18 @@ fetch('/publications.json')
       container.innerHTML = 'No publications found.';
       return;
     }
-    container.innerHTML = items.map(item => {
-      const year = item.pubDate ? item.pubDate.substring(7, 11) : '';
-      return `
-        <p style="margin-bottom:1.5rem; line-height:1.6; text-align:left;">
-          <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${item.title}</a>
-          ${year ? `<span style="color:#666;"> (${year})</span>` : ''}
-          <br>
-          <span style="color:#444;">${item.author}</span>
-          <br>
-          <em style="color:#666;">${item.journal}</em>
-        </p>
-      `;
-    }).join('');
+    container.innerHTML = items.map(item => `
+      <p style="margin-bottom:1.5rem; line-height:1.6; text-align:left;">
+        ${item.link 
+          ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" style="font-weight:bold; text-decoration:none;">${item.title}</a>`
+          : `<strong>${item.title}</strong>`}
+        ${item.year ? `<span style="color:#666;"> (${item.year})</span>` : ''}
+        <br>
+        <span style="color:#444;">${item.author}</span>
+        <br>
+        <em style="color:#666;">${item.journal}</em>
+      </p>
+    `).join('');
   })
   .catch(err => {
     document.getElementById('pubmed-feed').innerHTML = 'Could not load publications. Error: ' + err.message;
