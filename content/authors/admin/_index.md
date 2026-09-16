@@ -70,7 +70,7 @@ fetch('/publications.json')
           : `<strong>${item.title}</strong>`}
         ${item.year ? `<span style="color:#666;"> (${item.year})</span>` : ''}
         <br>
-        <span style="color:#444;">${item.author}</span>
+        <span style="color:#444;">${item.author.replace(/Robinson OJ/g, '<strong>Robinson OJ</strong>')}</span>
         <br>
         <em style="color:#666;">${item.journal}</em>
       </p>
