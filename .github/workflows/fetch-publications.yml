@@ -14,62 +14,96 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch publications from ORCID API
+      - name: Fetch publications from ORCID and enrich with PubMed
         run: |
-          python3 -c "
-          import json, urllib.request
+          python3 << 'EOF'
+          import json, urllib.request, time
 
           orcid_id = '0000-0002-3100-1132'
           headers = {'Accept': 'application/json'}
 
-          # Get list of works
+          # Get list of works from ORCID
           req = urllib.request.Request(f'https://pub.orcid.org/v3.0/{orcid_id}/works', headers=headers)
           with urllib.request.urlopen(req) as r:
               works = json.loads(r.read())
 
           items = []
+          dois = []
+
           for group in works.get('group', []):
               summary = group['work-summary'][0]
               put_code = summary['put-code']
 
-              # Get full details for each work
               req2 = urllib.request.Request(f'https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}', headers=headers)
               with urllib.request.urlopen(req2) as r2:
                   work = json.loads(r2.read())
 
               title = work.get('title', {}).get('title', {}).get('value', '')
               journal = work.get('journal-title', {}).get('value', '') if work.get('journal-title') else ''
-              
-              # Year
               pub_date = work.get('publication-date') or {}
               year = pub_date.get('year', {}).get('value', '') if pub_date else ''
 
-              # Authors
-              contributors = work.get('contributors', {}).get('contributor', [])
-              authors = ', '.join(
-                  c.get('credit-name', {}).get('value', '')
-                  for c in contributors
-                  if c.get('credit-name')
-              )
-
-              # DOI link
-              link = ''
+              doi = ''
               for ext_id in work.get('external-ids', {}).get('external-id', []):
                   if ext_id.get('external-id-type') == 'doi':
                       doi = ext_id.get('external-id-value', '')
-                      link = f'https://doi.org/{doi}'
                       break
 
-              if title:
-                  items.append({'title': title, 'link': link, 'year': year, 'author': authors, 'journal': journal})
+              link = f'https://doi.org/{doi}' if doi else ''
 
-          print(json.dumps(items))
-          " > static/publications.json
+              if title:
+                  items.append({'title': title, 'link': link, 'year': year, 'author': '', 'journal': journal, 'doi': doi})
+                  if doi:
+                      dois.append(doi)
+
+              time.sleep(0.1)  # be polite to ORCID API
+
+          # Enrich with PubMed data using DOIs
+          if dois:
+              doi_query = ' OR '.join(f'{doi}[doi]' for doi in dois[:50])
+              search_url = f'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={urllib.request.quote(doi_query)}&retmax=100&retmode=json'
+              with urllib.request.urlopen(search_url) as r:
+                  search = json.loads(r.read())
+              pmids = search.get('esearchresult', {}).get('idlist', [])
+
+              if pmids:
+                  summary_url = f'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={",".join(pmids)}&retmode=json'
+                  with urllib.request.urlopen(summary_url) as r:
+                      summaries = json.loads(r.read())
+
+                  # Build DOI -> authors/journal lookup
+                  doi_lookup = {}
+                  for pmid in pmids:
+                      d = summaries.get('result', {}).get(pmid, {})
+                      for eid in d.get('articleids', []):
+                          if eid.get('idtype') == 'doi':
+                              doi_lookup[eid['value'].lower()] = {
+                                  'authors': ', '.join(a['name'] for a in d.get('authors', [])),
+                                  'journal': d.get('fulljournalname', '')
+                              }
+
+                  # Merge into items
+                  for item in items:
+                      doi_key = item.get('doi', '').lower()
+                      if doi_key in doi_lookup:
+                          item['author'] = doi_lookup[doi_key]['authors']
+                          if not item['journal']:
+                              item['journal'] = doi_lookup[doi_key]['journal']
+
+          # Remove doi field from output
+          for item in items:
+              item.pop('doi', None)
+
+          with open('static/publications.json', 'w') as f:
+              json.dump(items, f)
+          print(f'Saved {len(items)} publications')
+          EOF
 
       - name: Commit and push if changed
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
+          git pull --rebase
           git add static/publications.json
           git diff --staged --quiet || git commit -m 'Update publications'
           git push
