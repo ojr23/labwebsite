@@ -14,28 +14,55 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch PubMed RSS and save as JSON
+      - name: Fetch publications from ORCID API
         run: |
-          curl -s "https://pubmed.ncbi.nlm.nih.gov/rss/search/16w3XeDAUam7Iobfqdso-7kQVdm1uzRr_LygJeDwkhx_st0AKw/?limit=100&utm_campaign=pubmed-2&fc=20260915105732" | python3 -c "
-          import sys, json, urllib.request, xml.etree.ElementTree as ET
-          tree = ET.parse(sys.stdin)
-          root = tree.getroot()
-          ns = {'dc': 'http://purl.org/dc/elements/1.1/'}
+          python3 -c "
+          import json, urllib.request
+
+          orcid_id = '0000-0002-3100-1132'
+          headers = {'Accept': 'application/json'}
+
+          # Get list of works
+          req = urllib.request.Request(f'https://pub.orcid.org/v3.0/{orcid_id}/works', headers=headers)
+          with urllib.request.urlopen(req) as r:
+              works = json.loads(r.read())
+
           items = []
-          ids = []
-          for item in root.findall('.//item'):
-              link = item.findtext('link', '')
-              pmid = link.strip('/').split('/')[-1]
-              ids.append(pmid)
-              items.append({'title': item.findtext('title', ''), 'link': link, 'pubDate': item.findtext('pubDate', ''), 'journal': item.findtext('source', ''), 'pmid': pmid})
-          # Fetch full author lists from PubMed API
-          url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=' + ','.join(ids) + '&retmode=json'
-          with urllib.request.urlopen(url) as r:
-              details = json.loads(r.read())
-          for item in items:
-              d = details.get('result', {}).get(item['pmid'], {})
-              authors = d.get('authors', [])
-              item['author'] = ', '.join(a['name'] for a in authors)
+          for group in works.get('group', []):
+              summary = group['work-summary'][0]
+              put_code = summary['put-code']
+
+              # Get full details for each work
+              req2 = urllib.request.Request(f'https://pub.orcid.org/v3.0/{orcid_id}/work/{put_code}', headers=headers)
+              with urllib.request.urlopen(req2) as r2:
+                  work = json.loads(r2.read())
+
+              title = work.get('title', {}).get('title', {}).get('value', '')
+              journal = work.get('journal-title', {}).get('value', '') if work.get('journal-title') else ''
+              
+              # Year
+              pub_date = work.get('publication-date') or {}
+              year = pub_date.get('year', {}).get('value', '') if pub_date else ''
+
+              # Authors
+              contributors = work.get('contributors', {}).get('contributor', [])
+              authors = ', '.join(
+                  c.get('credit-name', {}).get('value', '')
+                  for c in contributors
+                  if c.get('credit-name')
+              )
+
+              # DOI link
+              link = ''
+              for ext_id in work.get('external-ids', {}).get('external-id', []):
+                  if ext_id.get('external-id-type') == 'doi':
+                      doi = ext_id.get('external-id-value', '')
+                      link = f'https://doi.org/{doi}'
+                      break
+
+              if title:
+                  items.append({'title': title, 'link': link, 'year': year, 'author': authors, 'journal': journal})
+
           print(json.dumps(items))
           " > static/publications.json
 
