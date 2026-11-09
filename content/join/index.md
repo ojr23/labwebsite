@@ -5,7 +5,7 @@ share: false
 comments: false
 ---
 
-<p style="text-align:left;">We receive so many emails from prospective trainees that it is no longer possible to reply to them all. Please accept our apologies if you do not get a response, but hopefully all questions are covered below.</p>
+<p style="text-align:left;">We receive so many emails from prospective trainees that it is no longer possible to reply to them all. Please accept our apologies if you do not get a response, but hopefully all questions you may have are answered below.</p>
 
 <h2 style="text-align:left;">PhD students</h2>
 <p style="text-align:left;">The only route to doing a PhD with us is through one of these three externally managed schemes:</p>
