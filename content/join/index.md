@@ -29,6 +29,9 @@ comments: false
 <p style="text-align:left;">We do not take unpaid interns, out of equality and equity concerns. The only way to do an internship in the lab is to obtain paid external funding. The <a href="https://www.bap.org.uk/internship.php" target="_blank" rel="noopener noreferrer">British Association for Psychopharmacology internship scheme</a> was designed for this purpose, and we are happy to support one candidate for this scheme a year. If you obtain another source of stipend for an internship (for example, via a scheme at your undergraduate university), we are happy to consider taking you. Please get in touch once you have identified such a funding source.</p>
 
 <h2 style="text-align:left;">Master's and undergraduate projects</h2>
-<p style="text-align:left;">There is no need to contact us before getting onto a master's or undergraduate course. Once you are on a suitable programme, the process of applying for a research project will be explained (it varies across courses). We are unfortunately not able to support everyone who wants to do projects in the lab so we have an internal process for trainees for the lab.</p>
+<p style="text-align:left;">We only have capacity to take students from UCL. There is no need to contact us before getting onto a master's or undergraduate course. Once you are on a suitable programme, the process of applying for a research project will be explained (it varies across courses). We are unfortunately not able to support everyone who wants to do projects in the lab so we have an internal process for trainees for the lab.</p>
+
+<h2 style="text-align:left;">Clinical Trainees</h2>
+<p style="text-align:left;">We take DClinpsy students from the UCL program for research projects and are willing to consider UK trainee doctors for placements on suitable schemes/programmes. We do not generally take clinicians from outside the UK for placements.</p>
 
 <p style="text-align:left;"><a href="/">← Back to home</a></p>
