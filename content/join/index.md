@@ -32,6 +32,6 @@ comments: false
 <p style="text-align:left;">We only have capacity to take students from UCL. There is no need to contact us before getting onto a master's or undergraduate course. Once you are on a suitable programme, the process of applying for a research project will be explained (it varies across courses). We are unfortunately not able to support everyone who wants to do projects in the lab so we have an internal process for trainees for the lab.</p>
 
 <h2 style="text-align:left;">Clinical Trainees</h2>
-<p style="text-align:left;">We take DClinpsy students from the UCL program for research projects and are willing to consider UK trainee doctors for placements on suitable schemes/programmes. We do not generally take clinicians from outside the UK for placements.</p>
+<p style="text-align:left;">We take DClinpsy students from the UCL program for research projects and are willing to consider UK trainee doctors for placements on suitable schemes/programmes. We are unable to take clinicians from outside the UK for placements.</p>
 
 <p style="text-align:left;"><a href="/">← Back to home</a></p>
